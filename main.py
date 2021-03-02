@@ -11,15 +11,18 @@ def get_dirs():
 
 def create_img(dir):
     data_file = open(os.path.join(dir, 'image.dat'))
-    [content_path, style_path, result_path, size_str, todo] = data_file.readlines()[0].split(sep=';')
-    if todo == "False":
-        print("This image is not done...")
-        return
-    size = int(size_str)
-    image_result = cfa(os.path.join(dir, content_path),
-    os.path.join(dir, style_path), size)
-    print('saving...')
-    image_result.save(os.path.join(dir, result_path))
+    lines = data_file.readlines()
+    for i in range(len(lines)):
+        [content_path, style_path, result_path, size_str, todo] = lines[i].split(sep=';')
+        print('-- image style and config number %s' % (i + 1))
+        if todo == "False":
+            print("-- This image is not done...")
+            return
+        size = int(size_str)
+        image_result = cfa(os.path.join(dir, content_path),
+        os.path.join(dir, style_path), size)
+        print('- saving...')
+        image_result.save(os.path.join(dir, result_path))
 
 
 if __name__ == "__main__":
